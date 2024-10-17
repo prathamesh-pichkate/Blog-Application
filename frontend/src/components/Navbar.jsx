@@ -51,7 +51,7 @@ const Navbar = () => {
               SignIn
             </a>
             <a
-              href="#"
+              href="/register-user"
               className="bg-white py-2 px-3 border rounded-2xl hover:border-orange-500  hover:text-orange-600"
             >
               SignUp
@@ -101,7 +101,7 @@ const Navbar = () => {
                   SignIn
                 </a>
                 <a
-                  href="#"
+                  href="/register-user"
                   className=" py-2 px-3 border border-gray-500 rounded-s-lg "
                   dir="rtl"
                 >
