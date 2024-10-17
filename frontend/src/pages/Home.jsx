@@ -1,9 +1,12 @@
+import BuildCommunity from "../components/BuildCommunity";
+import Hero from "../components/Hero";
+
 const Home = () => {
   return (
-    <div>
-      <h1>Welcome to the Home Page!</h1>
-      <p>This is your main landing page.</p>
-    </div>
+    <>
+      <Hero />
+      <BuildCommunity />
+    </>
   );
 };
 
