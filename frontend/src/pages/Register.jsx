@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { registerUser } from "../apis/Authentication";
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate, Link } from "react-router-dom";
 
 const Register = () => {
   const {
@@ -9,30 +9,31 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  // Use useMutation hook to handle the register API call
   const mutation = useMutation(registerUser, {
     onSuccess: (data) => {
       console.log("User registered:", data);
-      alert("Registration Successful!");
-      navigate("/login-user"); // Redirect to login page after registration
+      queryClient.invalidateQueries("user");
+      navigate("/login");
     },
     onError: (error) => {
+      const errorMessage =
+        error.response?.data?.message || error.message || "Registration failed";
       console.error("Registration failed:", error);
-      alert(error.response?.data?.message || "Registration failed");
+      alert(errorMessage);
     },
   });
 
   const onSubmit = (formData) => {
     const { imageUrl, ...otherData } = formData;
-
-    // Handle the image upload separately
     const formDataToSend = new FormData();
+
     if (imageUrl && imageUrl.length > 0) {
-      formDataToSend.append("imageUrl", imageUrl[0]); // Ensure this is correct
+      formDataToSend.append("imageUrl", imageUrl[0]);
     }
+
     Object.keys(otherData).forEach((key) => {
       formDataToSend.append(key, otherData[key]);
     });
@@ -42,7 +43,7 @@ const Register = () => {
 
   return (
     <div className="h-[85vh] flex flex-wrap items-center border border-gray-300">
-      {/* Left Section: Image (Visible only on medium and larger screens) */}
+      {/* Left Section: Image */}
       <div className="hidden lg:block md:w-1/2 h-[85vh] overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1488751045188-3c55bbf9a3fa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D"
@@ -58,7 +59,6 @@ const Register = () => {
             Create an Account
           </h2>
 
-          {/* Registration Form */}
           <form
             className="flex flex-col gap-6"
             onSubmit={handleSubmit(onSubmit)}
@@ -211,9 +211,9 @@ const Register = () => {
             {/* Sign In Redirect */}
             <p className="text-center text-sm text-gray-500 mt-4">
               Already have an account?{" "}
-              <span className="text-blue-600 hover:underline cursor-pointer">
+              <Link to="/login" className="text-blue-600 hover:underline">
                 Sign In
-              </span>
+              </Link>
             </p>
           </form>
         </div>

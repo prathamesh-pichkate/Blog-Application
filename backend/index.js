@@ -3,38 +3,40 @@ import dotenv from "dotenv";
 import cors from "cors";
 import userRouter from "./routes/user.route.js";
 import blogRouter from "./routes/blog.route.js";
-import commentRouter from "./routes/comment.route.js";
+
 import connectDb from "./db/connectDB.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 dotenv.config();
 
-//connect DB;
+// Connect DB
 connectDb();
 
-//middlewares
+// CORS Configuration
+const allowedOrigins = [
+  " http://localhost:5173", // React Frontend (Development)
+];
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,
+    origin: allowedOrigins,
+    credentials: true, // Allow cookies
   })
 );
+
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(cookieParser());
 
-//authentication routes
+// Routes
 app.use("/api/user", userRouter);
-
-//blog routes
 app.use("/api/blog", blogRouter);
 
-//comment routes
-app.use("/api/comment", commentRouter);
-
+// Start Server
 app.listen(PORT, () => {
-  console.log(`The Server Stated at port ${PORT}`);
+  console.log(`The Server Started at port ${PORT}`);
 });
