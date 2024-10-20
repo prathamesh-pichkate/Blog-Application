@@ -11,6 +11,7 @@ import App from "./App.jsx";
 import "./index.css";
 import Register from "./pages/Register.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Login from "./pages/Login.jsx";
 
 //create a client
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route path="/" element={<Home />} />
       <Route path="/register-user" element={<Register />} />
+      <Route path="/login" element={<Login />} />
     </Route>
   )
 );

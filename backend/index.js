@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 import userRouter from "./routes/user.route.js";
 import blogRouter from "./routes/blog.route.js";
-
 import connectDb from "./db/connectDB.js";
 import cookieParser from "cookie-parser";
 
@@ -16,14 +15,18 @@ dotenv.config();
 connectDb();
 
 // CORS Configuration
-const allowedOrigins = [
-  " http://localhost:5173", // React Frontend (Development)
-];
+const allowedOrigins = ["http://localhost:5173"];
 
 app.use(
   cors({
-    origin: allowedOrigins,
-    credentials: true, // Allow cookies
+    origin: (origin, callback) => {
+      if (allowedOrigins.includes(origin) || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allow sending cookies with requests
   })
 );
 

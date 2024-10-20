@@ -45,7 +45,7 @@ const Navbar = () => {
               <Sun />
             </a>
             <a
-              href="#"
+              href="/login"
               className="bg-white py-2 px-3  border rounded-2xl hover:border-orange-500 hover:text-orange-600"
             >
               SignIn
@@ -94,7 +94,7 @@ const Navbar = () => {
               </ul>
               <div className="flex justify-center space-x-4 mt-6">
                 <a
-                  href="#"
+                  href="login"
                   className=" py-2 px-3 border border-gray-500 rounded-s-lg "
                   dir="ltr"
                 >

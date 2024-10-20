@@ -4,6 +4,7 @@ import {
   registerUser,
   loginUser,
   logoutUser,
+  validateToken,
 } from "../controllers/user.controller.js";
 import authMiddleware from "../middleware/auth.middleware.js";
 
@@ -17,5 +18,8 @@ router.route("/login").post(loginUser);
 
 // 3. Logout Route (Protected)
 router.route("/logout").post(authMiddleware, logoutUser);
+
+//4. validateToken
+router.route("/validate-token").get(authMiddleware, validateToken);
 
 export default router;

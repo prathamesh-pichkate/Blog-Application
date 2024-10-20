@@ -9,13 +9,15 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(registerUser, {
+  const mutation = useMutation({
+    mutationFn: registerUser,
     onSuccess: (data) => {
       console.log("User registered:", data);
-      queryClient.invalidateQueries("user");
+      queryClient.invalidateQueries({ queryKey: ["user"] });
       navigate("/login");
     },
     onError: (error) => {
@@ -42,19 +44,19 @@ const Register = () => {
   };
 
   return (
-    <div className="h-[85vh] flex flex-wrap items-center border border-gray-300">
+    <div className="h-[85vh] flex items-center border border-gray-300">
       {/* Left Section: Image */}
-      <div className="hidden lg:block md:w-1/2 h-[85vh] overflow-hidden">
+      <div className="hidden lg:block md:w-1/2 h-full overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1488751045188-3c55bbf9a3fa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D"
           alt="Desk with laptop and accessories"
-          className="w-full h-full object-fit"
+          className="w-full h-full object-cover"
         />
       </div>
 
       {/* Right Section: Registration Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12">
-        <div className="rounded-lg p-8 md:p-12 w-full max-w-lg">
+        <div className="rounded-lg p-8 shadow-lg md:p-12 w-full max-w-lg">
           <h2 className="text-2xl font-semibold text-orange-600 text-center mb-6">
             Create an Account
           </h2>
