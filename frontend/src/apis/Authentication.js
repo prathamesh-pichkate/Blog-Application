@@ -9,4 +9,14 @@ const registerUser = async (userData) => {
   return response.data;
 };
 
-export { registerUser };
+const loginUser = async (userData) => {
+  const response = await axiosInstance.post("/api/user/login", userData);
+  return response.data;
+};
+
+const validateToken = async () => {
+  const response = await axiosInstance.get("/api/user/validate-token");
+  return response.data;
+};
+
+export { registerUser, loginUser, validateToken };

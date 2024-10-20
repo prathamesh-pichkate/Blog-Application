@@ -106,10 +106,6 @@ const loginUser = asyncHandler(async (req, res) => {
     secure: process.env.NODE_ENV == "production",
   };
 
-  console.log("Refresh Token", refreshToken);
-  console.log("Access Token", accessToken);
-  console.log("User", user);
-
   return res
     .status(200)
     .cookie("accessToken", accessToken, options)
@@ -153,9 +149,9 @@ const logoutUser = asyncHandler(async (req, res) => {
   const cookieOptions = {
     httpOnly: true,
     secure: isProduction,
-    sameSite: "Strict", // Adjust as needed
-    path: "/", // Ensure it matches how cookies were set
-    maxAge: 0, // Immediately expire the cookie
+    sameSite: "Strict",
+    path: "/",
+    maxAge: 0,
   };
 
   // 4. Clear the cookies and send response
@@ -166,4 +162,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged out"));
 });
 
-export { registerUser, loginUser, logoutUser };
+const validateToken = asyncHandler(async (req, res) => {
+  res.status(200).send({ userId: req.userId });
+});
+export { registerUser, loginUser, logoutUser, validateToken };
